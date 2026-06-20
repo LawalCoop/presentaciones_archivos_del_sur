@@ -270,7 +270,7 @@
                 transition:
                     background 0.18s,
                     border-color 0.18s;
-                margin-top: auto;
+                margin-top: 12px;
             }
 
             .btn-doc-original:hover {
@@ -401,9 +401,16 @@
                 border-right: 1px solid rgba(140, 100, 40, 0.4);
                 display: flex;
                 flex-direction: column;
+                gap: 0;
+                overflow: hidden;
+            }
+
+            .col-left-main {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
                 justify-content: center;
                 gap: 20px;
-                overflow: hidden;
             }
 
             .col-right {
@@ -1564,6 +1571,7 @@
         </div>
         <div class="card-body">
           <div class="col-left">
+            <div class="col-left-main">
             <div class="identity-panel">
               ${renderPhoto(slide)}
               <div class="identity-main">
@@ -1606,6 +1614,7 @@
             <div class="field field-observations">
               <label>Observaciones</label>
               <div class="val">${valueOrDash(slide.obs)}</div>
+            </div>
             </div>
             ${hasDoc ? `<button class="btn-doc-original" type="button">Ver documento original</button>` : ""}
           </div>

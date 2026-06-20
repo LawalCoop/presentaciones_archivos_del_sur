@@ -164,3 +164,57 @@
 - Destino: -41.147457382758354, -71.30249564471953, Bariloche, Rio Negro, Argentina
 - Observaciones: -
 - Documento: public/almerinda_uribe.jpg
+
+## Aborigenes
+
+### Mariano Cumiquil
+- N° Registro: 294
+- Nombre: Mariano Cumiquil
+- Registro: 22 de Enero de 1920
+- Padre: Francisco
+- Madre: Juana
+- Residencia: 18
+- Profesión: Jornalero
+- Origen: -39.82365918166385, -73.22976101666868, Valdivia, Chile
+- Destino: -41.12221793918817, -70.7244792140516, Pilcaniyeu, Rio Negro, Argentina
+- Observaciones: Soltero
+- Documento: public/comiquil_ficha.jpg
+
+### José Cuminao
+- N° Registro: 72
+- Nombre: José Cuminao
+- Registro: 7 de Octubre de 1914
+- Padre: Felipe
+- Madre: Lorenza
+- Profesión: Peón
+- Origen: -39.538961226574344, -72.96085466474734, San Jose, Chile
+- Destino: -41.147457382758354, -71.30249564471953, Limay, Argentina
+- Observaciones: Soltero
+- Documento: public/cuminao_ficha.jpg
+
+
+## Fechas
+
+### David Mella
+- N° Registro: 241
+- Nombre: David Mella
+- Registro: 21 de Septiembre de 1923
+- Padre: Pedro
+- Madre: Feliciana
+- Residencia: 40
+- Origen: -40.39914088094084, -73.01401662071495, Chile
+- Destino: -40.84629270813068, -71.43480742311917, Argentina
+- Observaciones: -
+- Documento: public/david_mella_ficha.jpg
+
+### Juan de la Cruz Hernandez
+- N° Registro:65
+- Nombre: Juan de la Cruz Hernandez
+- Registro: 29 de Octubre de 1913
+- Padre: José
+- Madre: Candelaria
+- Residencia: 34
+- Origen: -36.636249662409824, -72.04527275174195, Chillan, Chile
+- Destino: -40.99376986376239, -71.40391818875256, Los Tayos, Argentina
+- Observaciones: No sabe firmar
+- Documento: public/juan_de_la_cruz_hernandez_ficha.jpg.jpg
