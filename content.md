@@ -165,7 +165,7 @@
 - Observaciones: -
 - Documento: public/almerinda_uribe.jpg
 
-## Aborigenes
+## Mapuche
 
 ### Mariano Cumiquil
 - N° Registro: 294
