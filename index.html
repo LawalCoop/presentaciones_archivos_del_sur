@@ -846,7 +846,12 @@
             .contact-rule {
                 width: min(300px, 60%);
                 height: 1px;
-                background: linear-gradient(to right, transparent, rgba(122, 90, 32, 0.7), transparent);
+                background: linear-gradient(
+                    to right,
+                    transparent,
+                    rgba(122, 90, 32, 0.7),
+                    transparent
+                );
                 margin-bottom: 32px;
             }
 
@@ -1159,7 +1164,12 @@
                     position: sticky;
                     bottom: 0;
                     padding: 10px 0 0;
-                    background: linear-gradient(to top, rgba(21, 17, 13, 0.96), rgba(21, 17, 13, 0.7) 65%, transparent);
+                    background: linear-gradient(
+                        to top,
+                        rgba(21, 17, 13, 0.96),
+                        rgba(21, 17, 13, 0.7) 65%,
+                        transparent
+                    );
                 }
 
                 .nav-btn {
@@ -1198,8 +1208,12 @@
                 }
 
                 @keyframes mobileFadeIn {
-                    from { opacity: 0; }
-                    to   { opacity: 1; }
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
                 }
 
                 .doc-viewer {
@@ -1312,8 +1326,14 @@
         <div class="mobile-notice">
             <div class="mobile-notice-inner">
                 <div class="mobile-notice-kicker">Archivos del Sur</div>
-                <div class="mobile-notice-title">Versión móvil<br>en construcción</div>
-                <div class="mobile-notice-copy">Esta presentación está optimizada para pantallas de escritorio. Visitá la página desde una computadora para ver la experiencia completa.</div>
+                <div class="mobile-notice-title">
+                    Versión móvil<br />en construcción
+                </div>
+                <div class="mobile-notice-copy">
+                    Esta presentación está optimizada para pantallas de
+                    escritorio. Visitá la página desde una computadora para ver
+                    la experiencia completa.
+                </div>
             </div>
         </div>
         <div class="archive-header" id="archive-header">
@@ -1591,7 +1611,7 @@
       <div class="title-body">
         <div class="title-kicker">Archivos del Sur</div>
         <div class="title-main">${escapeHtml(slide.text)}</div>
-        <div class="title-sub">Trabajo colaborativo entre Archivos del Sur, Museo de la Patagonia, Consulado General de Chile en Bariloche y Círculo Chileno Gabriela Mistral.</div>
+        <div class="title-sub">Trabajo colaborativo entre Archivos del Sur, Cooperativa Lawal, Museo de la Patagonia, Consulado General de Chile en Bariloche y Círculo Chileno Gabriela Mistral.</div>
       </div>
       <div class="card-footer"></div>
     </div>
@@ -1975,10 +1995,18 @@
                     }
 
                     renderSlides(slides);
-                    const paramSlide = parseInt(new URLSearchParams(window.location.search).get("slide"), 10);
-                    current = Number.isFinite(paramSlide) && paramSlide >= 1 && paramSlide <= cards.length
-                        ? paramSlide - 1
-                        : 0;
+                    const paramSlide = parseInt(
+                        new URLSearchParams(window.location.search).get(
+                            "slide",
+                        ),
+                        10,
+                    );
+                    current =
+                        Number.isFinite(paramSlide) &&
+                        paramSlide >= 1 &&
+                        paramSlide <= cards.length
+                            ? paramSlide - 1
+                            : 0;
                     if (current > 0) cards[current].classList.add("active");
                     busy = false;
                     updateHeader();
