@@ -60,20 +60,12 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                padding: 20px 12px;
+                padding: 8px;
                 overflow-x: hidden;
             }
 
             .archive-header {
-                color: #6a5030;
-                font-family: "Special Elite", serif;
-                font-size: 0.55rem;
-                letter-spacing: 0.3em;
-                text-transform: uppercase;
-                margin-bottom: 14px;
-                opacity: 0.7;
-                text-align: center;
-                min-height: 1em;
+                display: none;
             }
 
             .archive-crumb {
@@ -92,8 +84,8 @@
 
             .stage {
                 position: relative;
-                width: min(880px, 96vw);
-                height: min(575px, 80vh);
+                width: min(1480px, calc(100vw - 16px));
+                height: min(920px, calc(100vh - 88px));
                 perspective: 2200px;
                 perspective-origin: 50% 44%;
                 filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.8));
@@ -258,8 +250,9 @@
                 font-family: "Special Elite", serif;
                 font-size: 0.82rem;
                 color: var(--ink);
-                letter-spacing: 0.07em;
+                letter-spacing: 0.11em;
                 text-align: center;
+                text-transform: uppercase;
                 flex: 1;
                 padding: 0 12px;
             }
@@ -283,19 +276,21 @@
             }
 
             .col-left {
-                padding: 13px 16px 12px 22px;
+                padding: 18px 22px 16px 28px;
                 border-right: 1px solid rgba(140, 100, 40, 0.4);
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                justify-content: center;
+                gap: 14px;
                 overflow: hidden;
             }
 
             .col-right {
-                padding: 18px 18px 12px 16px;
+                padding: 22px 22px 16px 20px;
                 display: flex;
                 flex-direction: column;
-                gap: 9px;
+                justify-content: center;
+                gap: 14px;
                 overflow: hidden;
                 align-items: center;
             }
@@ -308,43 +303,53 @@
 
             .field label {
                 font-family: "Special Elite", serif;
-                font-size: 0.48rem;
+                font-size: 0.56rem;
                 color: var(--ocre);
                 text-transform: uppercase;
                 letter-spacing: 0.18em;
             }
 
             .field .val {
-                font-family: "Pinyon Script", cursive;
-                font-size: 1.55rem;
+                font-family: "Special Elite", serif;
+                font-size: 1.3rem;
                 color: var(--ink-blue);
-                line-height: 1.05;
+                line-height: 1.24;
                 border-bottom: 1px solid rgba(140, 100, 40, 0.5);
-                min-height: 1.7rem;
-                letter-spacing: 0.02em;
+                min-height: 2.2rem;
+                letter-spacing: 0.03em;
+                padding: 3px 0 5px;
             }
 
             .field-row {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                gap: 14px;
+            }
+
+            .field-observations .val {
+                font-size: 0.88rem;
+                line-height: 1.55;
+                letter-spacing: 0.02em;
+                min-height: 7.8rem;
+                padding-top: 6px;
+                white-space: normal;
             }
 
             .photo-wrap {
                 position: relative;
-                width: 106px;
+                width: 184px;
                 flex-shrink: 0;
                 transform: rotate(-1.2deg);
-                filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.3));
+                filter: drop-shadow(4px 8px 14px rgba(0, 0, 0, 0.3));
             }
 
             .clip {
                 position: absolute;
-                top: -19px;
+                top: -24px;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 28px;
-                height: 22px;
+                width: 36px;
+                height: 28px;
                 z-index: 10;
             }
 
@@ -353,8 +358,8 @@
                 content: "";
                 position: absolute;
                 bottom: 0;
-                width: 4px;
-                height: 18px;
+                width: 5px;
+                height: 22px;
                 background: linear-gradient(
                     to right,
                     #7a838c,
@@ -379,8 +384,8 @@
                 top: 0;
                 left: 5px;
                 right: 5px;
-                height: 9px;
-                border: 2.5px solid #8a9098;
+                height: 12px;
+                border: 3px solid #8a9098;
                 border-bottom: none;
                 border-radius: 7px 7px 0 0;
                 background: linear-gradient(to bottom, #d8e0e8, #9aa4ac);
@@ -390,8 +395,8 @@
             }
 
             .photo-frame {
-                width: 106px;
-                height: 130px;
+                width: 184px;
+                height: 226px;
                 background: linear-gradient(
                     150deg,
                     #c8b090 0%,
@@ -462,17 +467,17 @@
 
             .photo-label {
                 font-family: "Special Elite", serif;
-                font-size: 0.42rem;
+                font-size: 0.5rem;
                 color: var(--ocre);
                 text-transform: uppercase;
-                letter-spacing: 0.14em;
+                letter-spacing: 0.16em;
                 text-align: center;
-                margin-top: 5px;
+                margin-top: 8px;
             }
 
             .map-box {
                 width: 100%;
-                height: 158px;
+                height: 196px;
                 flex-shrink: 0;
                 border: 1px solid var(--border);
                 position: relative;
@@ -536,13 +541,14 @@
             }
 
             .map-legend span {
-                font-family: "Pinyon Script", cursive;
-                font-size: 1rem;
+                font-family: "Special Elite", serif;
+                font-size: 0.72rem;
                 color: var(--ink-faded);
                 display: flex;
                 align-items: center;
-                gap: 5px;
-                line-height: 1.1;
+                gap: 7px;
+                line-height: 1.25;
+                letter-spacing: 0.04em;
             }
 
             .dot {
@@ -564,28 +570,10 @@
                 flex: 0 0 auto;
                 border-top: 1px solid rgba(140, 100, 40, 0.5);
                 box-shadow: 0 -2px 0 rgba(140, 100, 40, 0.12);
-                padding: 6px 22px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+                padding: 8px 22px;
                 position: relative;
                 z-index: 10;
-                gap: 14px;
-            }
-
-            .obs {
-                font-family: "Pinyon Script", cursive;
-                font-size: 1.05rem;
-                color: #5a3218;
-                max-width: 76%;
-                line-height: 1.2;
-            }
-
-            .page-mark {
-                font-family: "Courier Prime", monospace;
-                font-size: 0.52rem;
-                color: var(--ocre);
-                letter-spacing: 0.12em;
+                min-height: 28px;
             }
 
             .card-title .card-body,
@@ -681,40 +669,42 @@
                 display: flex;
                 align-items: center;
                 gap: 26px;
-                margin-top: 16px;
+                margin-top: 10px;
             }
 
             .nav-btn {
-                background: none;
-                border: 1px solid #3a2408;
-                color: #8a6828;
+                background: rgba(222, 199, 150, 0.08);
+                border: 1px solid rgba(176, 144, 96, 0.65);
+                color: #c8aa72;
                 font-family: "Special Elite", serif;
-                font-size: 0.56rem;
+                font-size: 0.62rem;
                 letter-spacing: 0.2em;
                 text-transform: uppercase;
-                padding: 6px 20px;
+                padding: 8px 24px;
                 cursor: pointer;
                 transition:
                     background 0.18s,
-                    color 0.18s;
+                    color 0.18s,
+                    border-color 0.18s;
             }
 
             .nav-btn:hover:not(:disabled) {
-                background: #2a1808;
-                color: #dcc890;
+                background: rgba(222, 199, 150, 0.14);
+                border-color: #dcc890;
+                color: #f0dfb2;
             }
 
             .nav-btn:disabled {
-                opacity: 0.15;
+                opacity: 0.4;
                 cursor: default;
             }
 
             .nav-counter {
                 font-family: "Special Elite", serif;
-                font-size: 0.58rem;
-                color: #5a4018;
-                letter-spacing: 0.14em;
-                min-width: 68px;
+                font-size: 0.72rem;
+                color: #c8aa72;
+                letter-spacing: 0.16em;
+                min-width: 82px;
                 text-align: center;
             }
 
@@ -746,14 +736,6 @@
                     padding-top: 14px;
                 }
 
-                .card-footer {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-
-                .obs {
-                    max-width: none;
-                }
             }
 
             @media (max-width: 560px) {
@@ -845,6 +827,8 @@
 
             const keyMap = {
                 expediente: "expediente",
+                nregistro: "registroNumero",
+                numeroregistro: "registroNumero",
                 nombre: "nombre",
                 nacimiento: "nacimiento",
                 registro: "registro",
@@ -1059,10 +1043,7 @@
         <div class="title-main">${escapeHtml(slide.text)}</div>
         <div class="title-sub">Trabajo colaborativo entre Archivos del Sur, Museo de la Patagonia, Consulado General de Chile en Bariloche y Círculo Chileno Gabriela Mistral.</div>
       </div>
-      <div class="card-footer">
-        <div class="obs"></div>
-        <div class="page-mark">${String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;${String(total).padStart(2, "0")}</div>
-      </div>
+      <div class="card-footer"></div>
     </div>
   `;
             }
@@ -1076,10 +1057,7 @@
         <div class="section-main">${escapeHtml(slide.text)}</div>
         <div class="section-rule"></div>
       </div>
-      <div class="card-footer">
-        <div class="obs"></div>
-        <div class="page-mark">${String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;${String(total).padStart(2, "0")}</div>
-      </div>
+      <div class="card-footer"></div>
     </div>
   `;
             }
@@ -1089,9 +1067,9 @@
     <div class="card${index === 0 ? " active" : ""}" data-type="card">
       ${paperTexture(index)}
       <div class="card-header">
-        <div class="hd-left">República Argentina<br>Dirección de Inmigración</div>
-        <div class="hd-center">Ficha de Registro Migratorio</div>
-        <div class="hd-right">Expediente N.º<br>${valueOrDash(slide.expediente)}</div>
+        <div class="hd-left">Archivos del Sur: Habitantes</div>
+        <div class="hd-center">${valueOrDash(slide.sectionLabel || 'Registro Migratorio')}</div>
+        <div class="hd-right">N° Registro<br>${valueOrDash(slide.registroNumero || slide.expediente)}</div>
       </div>
       <div class="card-body">
         <div class="col-left">
@@ -1127,16 +1105,17 @@
               <div class="val">${valueOrDash(slide.profesion)}</div>
             </div>
           </div>
+          <div class="field field-observations">
+            <label>Observaciones</label>
+            <div class="val">${valueOrDash(slide.obs)}</div>
+          </div>
         </div>
         <div class="col-right">
           ${renderPhoto(slide)}
           ${renderMap(slide, index)}
         </div>
       </div>
-      <div class="card-footer">
-        <div class="obs">${valueOrDash(slide.obs)}</div>
-        <div class="page-mark">${String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;${String(total).padStart(2, "0")}</div>
-      </div>
+      <div class="card-footer"></div>
     </div>
   `;
             }
