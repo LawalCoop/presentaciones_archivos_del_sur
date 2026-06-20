@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Archivos del Sur</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Special+Elite&family=Courier+Prime:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            :root {
+                --ink: #1c110a;
+                --ink-blue: #0e1e32;
+                --ink-faded: #4a2e18;
+                --ocre: #7a5a20;
+                --border: #b09060;
+                --red: #6e1a1a;
+                --blue: #0e2038;
+            }
+
+            html,
+            body {
+                min-height: 100%;
+                background: #0d0905;
+                background-image:
+                    repeating-linear-gradient(
+                        92deg,
+                        rgba(255, 255, 255, 0.012) 0px,
+                        rgba(255, 255, 255, 0.012) 1px,
+                        transparent 1px,
+                        transparent 60px
+                    ),
+                    repeating-linear-gradient(
+                        180deg,
+                        rgba(0, 0, 0, 0.08) 0px,
+                        rgba(0, 0, 0, 0.08) 1px,
+                        transparent 1px,
+                        transparent 40px
+                    );
+            }
+
+            body {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 20px 12px;
+                overflow-x: hidden;
+            }
+
+            .archive-header {
+                color: #6a5030;
+                font-family: "Special Elite", serif;
+                font-size: 0.55rem;
+                letter-spacing: 0.3em;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+                opacity: 0.7;
+                text-align: center;
+                min-height: 1em;
+            }
+
+            .archive-crumb {
+                background: none;
+                border: none;
+                color: inherit;
+                cursor: pointer;
+                font: inherit;
+                letter-spacing: inherit;
+                text-transform: inherit;
+            }
+
+            .archive-crumb:hover {
+                color: #b09060;
+            }
+
+            .stage {
+                position: relative;
+                width: min(880px, 96vw);
+                height: min(575px, 80vh);
+                perspective: 2200px;
+                perspective-origin: 50% 44%;
+                filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.8));
+            }
+
+            .card {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                visibility: hidden;
+                opacity: 0;
+                transform: translateX(80px) rotateY(9deg);
+                transform-origin: left center;
+                transform-style: preserve-3d;
+                transition: none;
+                overflow: hidden;
+                background-color: #ede0c2;
+            }
+
+            .card-texture {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+            }
+
+            .card-paper {
+                position: absolute;
+                inset: 0;
+                z-index: 1;
+                pointer-events: none;
+                background:
+                    radial-gradient(
+                        ellipse 180px 120px at 5% 4%,
+                        rgba(140, 90, 30, 0.1) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        ellipse 220px 160px at 97% 96%,
+                        rgba(110, 70, 20, 0.09) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        ellipse 70% 60% at 50% 48%,
+                        rgba(255, 248, 230, 0.25) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        ellipse 96% 92% at 50% 50%,
+                        transparent 55%,
+                        rgba(80, 45, 10, 0.18) 100%
+                    ),
+                    linear-gradient(
+                        162deg,
+                        #f0e2c4 0%,
+                        #ecd8b8 18%,
+                        #f2e6cc 35%,
+                        #e8d4ae 55%,
+                        #eedcbc 72%,
+                        #e6d0a8 88%,
+                        #dfc8a0 100%
+                    );
+            }
+
+            .card-binding {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 20px;
+                z-index: 6;
+                pointer-events: none;
+                background: linear-gradient(
+                    to right,
+                    rgba(20, 8, 2, 0.22) 0%,
+                    rgba(20, 8, 2, 0.06) 60%,
+                    transparent 100%
+                );
+            }
+
+            .card::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: 2;
+                pointer-events: none;
+                background-image: repeating-linear-gradient(
+                    180deg,
+                    transparent 0px,
+                    transparent 3px,
+                    rgba(140, 100, 40, 0.022) 3px,
+                    rgba(140, 100, 40, 0.022) 4px
+                );
+            }
+
+            .card.active {
+                visibility: visible;
+                opacity: 1;
+                transform: translateX(0) rotateY(0deg);
+                transition:
+                    opacity 0.42s ease,
+                    transform 0.42s cubic-bezier(0.16, 0.6, 0.36, 1);
+            }
+
+            .card.leaving-fwd {
+                visibility: visible;
+                opacity: 0;
+                transform: translateX(-65px) rotateY(-11deg);
+                transform-origin: right center;
+                transition:
+                    opacity 0.32s ease,
+                    transform 0.32s cubic-bezier(0.6, 0, 1, 0.45);
+            }
+
+            .card.leaving-bwd {
+                visibility: visible;
+                opacity: 0;
+                transform: translateX(65px) rotateY(11deg);
+                transform-origin: left center;
+                transition:
+                    opacity 0.32s ease,
+                    transform 0.32s cubic-bezier(0.6, 0, 1, 0.45);
+            }
+
+            .card.entering-fwd {
+                visibility: visible;
+                opacity: 0;
+                transform: translateX(75px) rotateY(9deg);
+                transform-origin: left center;
+            }
+
+            .card.entering-bwd {
+                visibility: visible;
+                opacity: 0;
+                transform: translateX(-75px) rotateY(-9deg);
+                transform-origin: right center;
+            }
+
+            .card-header {
+                flex: 0 0 auto;
+                padding: 11px 22px 9px 22px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                z-index: 10;
+                border-bottom: 1px solid rgba(140, 100, 40, 0.55);
+                box-shadow: 0 2px 0 rgba(140, 100, 40, 0.18);
+            }
+
+            .hd-left {
+                font-family: "Special Elite", serif;
+                font-size: 0.55rem;
+                color: var(--ink-faded);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                line-height: 1.65;
+            }
+
+            .hd-center {
+                font-family: "Special Elite", serif;
+                font-size: 0.82rem;
+                color: var(--ink);
+                letter-spacing: 0.07em;
+                text-align: center;
+                flex: 1;
+                padding: 0 12px;
+            }
+
+            .hd-right {
+                font-family: "Courier Prime", monospace;
+                font-size: 0.52rem;
+                color: var(--ocre);
+                text-align: right;
+                letter-spacing: 0.08em;
+                line-height: 1.65;
+            }
+
+            .card-body {
+                flex: 1 1 0;
+                min-height: 0;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                position: relative;
+                z-index: 10;
+            }
+
+            .col-left {
+                padding: 13px 16px 12px 22px;
+                border-right: 1px solid rgba(140, 100, 40, 0.4);
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                overflow: hidden;
+            }
+
+            .col-right {
+                padding: 18px 18px 12px 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 9px;
+                overflow: hidden;
+                align-items: center;
+            }
+
+            .field {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .field label {
+                font-family: "Special Elite", serif;
+                font-size: 0.48rem;
+                color: var(--ocre);
+                text-transform: uppercase;
+                letter-spacing: 0.18em;
+            }
+
+            .field .val {
+                font-family: "Pinyon Script", cursive;
+                font-size: 1.55rem;
+                color: var(--ink-blue);
+                line-height: 1.05;
+                border-bottom: 1px solid rgba(140, 100, 40, 0.5);
+                min-height: 1.7rem;
+                letter-spacing: 0.02em;
+            }
+
+            .field-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .photo-wrap {
+                position: relative;
+                width: 106px;
+                flex-shrink: 0;
+                transform: rotate(-1.2deg);
+                filter: drop-shadow(2px 4px 8px rgba(0, 0, 0, 0.3));
+            }
+
+            .clip {
+                position: absolute;
+                top: -19px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 28px;
+                height: 22px;
+                z-index: 10;
+            }
+
+            .clip::before,
+            .clip::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                width: 4px;
+                height: 18px;
+                background: linear-gradient(
+                    to right,
+                    #7a838c,
+                    #ccd4dc,
+                    #8a9098,
+                    #ccd4dc,
+                    #7a838c
+                );
+                border-radius: 1px 1px 2px 2px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            }
+
+            .clip::before {
+                left: 7px;
+            }
+            .clip::after {
+                right: 7px;
+            }
+
+            .clip-bridge {
+                position: absolute;
+                top: 0;
+                left: 5px;
+                right: 5px;
+                height: 9px;
+                border: 2.5px solid #8a9098;
+                border-bottom: none;
+                border-radius: 7px 7px 0 0;
+                background: linear-gradient(to bottom, #d8e0e8, #9aa4ac);
+                box-shadow:
+                    0 -2px 4px rgba(0, 0, 0, 0.3),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            }
+
+            .photo-frame {
+                width: 106px;
+                height: 130px;
+                background: linear-gradient(
+                    150deg,
+                    #c8b090 0%,
+                    #b49070 40%,
+                    #bca080 100%
+                );
+                border: 1px solid #8a6840;
+                position: relative;
+                overflow: hidden;
+                box-shadow: inset 0 0 16px rgba(40, 20, 5, 0.25);
+            }
+
+            .photo-frame::before {
+                content: "";
+                position: absolute;
+                inset: 5px;
+                border: 1px solid rgba(255, 245, 225, 0.5);
+                z-index: 2;
+                pointer-events: none;
+            }
+
+            .photo-frame::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(
+                        ellipse at 35% 25%,
+                        rgba(255, 240, 200, 0.2) 0%,
+                        transparent 55%
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        transparent 55%,
+                        rgba(30, 15, 5, 0.22)
+                    );
+                z-index: 3;
+                pointer-events: none;
+            }
+
+            .photo-image,
+            .photo-empty svg {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .photo-image {
+                object-fit: cover;
+                filter: sepia(0.62) saturate(0.75) contrast(1.02)
+                    brightness(0.94);
+                opacity: 0;
+                transition: opacity 0.24s ease;
+            }
+
+            .photo-frame.has-photo .photo-image {
+                opacity: 0.92;
+            }
+
+            .photo-empty svg {
+                opacity: 0.35;
+            }
+
+            .photo-frame.has-photo .photo-empty {
+                display: none;
+            }
+
+            .photo-label {
+                font-family: "Special Elite", serif;
+                font-size: 0.42rem;
+                color: var(--ocre);
+                text-transform: uppercase;
+                letter-spacing: 0.14em;
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            .map-box {
+                width: 100%;
+                height: 158px;
+                flex-shrink: 0;
+                border: 1px solid var(--border);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .map-box::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                box-shadow: inset 0 0 20px rgba(20, 10, 3, 0.28);
+                pointer-events: none;
+                z-index: 900;
+            }
+
+            .map-div,
+            .map-empty {
+                position: absolute;
+                inset: 0;
+            }
+
+            .leaflet-tile {
+                filter: sepia(0.75) saturate(0.5) brightness(0.88)
+                    contrast(1.08);
+            }
+
+            .leaflet-container {
+                background: #b8c4a8;
+            }
+
+            .map-empty {
+                display: grid;
+                place-items: center;
+                font-family: "Special Elite", serif;
+                font-size: 0.52rem;
+                color: var(--ink-faded);
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                text-align: center;
+                padding: 12px;
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(255, 247, 225, 0.26),
+                        rgba(120, 95, 40, 0.08)
+                    ),
+                    repeating-linear-gradient(
+                        45deg,
+                        rgba(110, 85, 40, 0.08) 0px,
+                        rgba(110, 85, 40, 0.08) 2px,
+                        transparent 2px,
+                        transparent 9px
+                    );
+            }
+
+            .map-legend {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .map-legend span {
+                font-family: "Pinyon Script", cursive;
+                font-size: 1rem;
+                color: var(--ink-faded);
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                line-height: 1.1;
+            }
+
+            .dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                display: inline-block;
+                flex-shrink: 0;
+            }
+
+            .dot.o {
+                background: var(--red);
+            }
+            .dot.d {
+                background: var(--blue);
+            }
+
+            .card-footer {
+                flex: 0 0 auto;
+                border-top: 1px solid rgba(140, 100, 40, 0.5);
+                box-shadow: 0 -2px 0 rgba(140, 100, 40, 0.12);
+                padding: 6px 22px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                z-index: 10;
+                gap: 14px;
+            }
+
+            .obs {
+                font-family: "Pinyon Script", cursive;
+                font-size: 1.05rem;
+                color: #5a3218;
+                max-width: 76%;
+                line-height: 1.2;
+            }
+
+            .page-mark {
+                font-family: "Courier Prime", monospace;
+                font-size: 0.52rem;
+                color: var(--ocre);
+                letter-spacing: 0.12em;
+            }
+
+            .card-title .card-body,
+            .card-section .card-body,
+            .card-error .card-body {
+                display: block;
+            }
+
+            .title-body,
+            .section-body,
+            .error-body,
+            .loading-body {
+                position: relative;
+                z-index: 10;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 40px 54px;
+            }
+
+            .title-kicker,
+            .section-kicker,
+            .error-kicker,
+            .loading-kicker {
+                font-family: "Special Elite", serif;
+                font-size: 0.58rem;
+                color: var(--ocre);
+                text-transform: uppercase;
+                letter-spacing: 0.26em;
+                margin-bottom: 18px;
+            }
+
+            .title-main {
+                font-family: "Pinyon Script", cursive;
+                color: var(--ink-blue);
+                font-size: clamp(3.4rem, 9vw, 6.2rem);
+                line-height: 0.92;
+                max-width: 11ch;
+            }
+
+            .title-sub {
+                margin-top: 18px;
+                font-family: "IM Fell English", serif;
+                font-size: 1.05rem;
+                color: var(--ink-faded);
+                max-width: 34rem;
+                line-height: 1.4;
+            }
+
+            .section-main {
+                font-family: "Special Elite", serif;
+                color: var(--ink);
+                font-size: clamp(1.4rem, 4vw, 2.8rem);
+                line-height: 1.2;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                max-width: 18ch;
+            }
+
+            .section-rule {
+                width: min(360px, 70%);
+                height: 1px;
+                background: linear-gradient(
+                    to right,
+                    transparent,
+                    rgba(122, 90, 32, 0.7),
+                    transparent
+                );
+                margin: 26px 0 22px;
+            }
+
+            .section-copy,
+            .error-copy,
+            .loading-copy {
+                font-family: "IM Fell English", serif;
+                color: var(--ink-faded);
+                font-size: 1rem;
+                line-height: 1.45;
+                max-width: 34rem;
+            }
+
+            .card-loading,
+            .card-error {
+                visibility: visible;
+                opacity: 1;
+                transform: none;
+            }
+
+            .nav {
+                display: flex;
+                align-items: center;
+                gap: 26px;
+                margin-top: 16px;
+            }
+
+            .nav-btn {
+                background: none;
+                border: 1px solid #3a2408;
+                color: #8a6828;
+                font-family: "Special Elite", serif;
+                font-size: 0.56rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                padding: 6px 20px;
+                cursor: pointer;
+                transition:
+                    background 0.18s,
+                    color 0.18s;
+            }
+
+            .nav-btn:hover:not(:disabled) {
+                background: #2a1808;
+                color: #dcc890;
+            }
+
+            .nav-btn:disabled {
+                opacity: 0.15;
+                cursor: default;
+            }
+
+            .nav-counter {
+                font-family: "Special Elite", serif;
+                font-size: 0.58rem;
+                color: #5a4018;
+                letter-spacing: 0.14em;
+                min-width: 68px;
+                text-align: center;
+            }
+
+            @media (max-width: 820px) {
+                body {
+                    justify-content: flex-start;
+                }
+
+                .stage {
+                    height: auto;
+                    min-height: 760px;
+                }
+
+                .card {
+                    position: relative;
+                    min-height: 760px;
+                }
+
+                .card-body {
+                    grid-template-columns: 1fr;
+                }
+
+                .col-left {
+                    border-right: none;
+                    border-bottom: 1px solid rgba(140, 100, 40, 0.4);
+                }
+
+                .col-right {
+                    padding-top: 14px;
+                }
+
+                .card-footer {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .obs {
+                    max-width: none;
+                }
+            }
+
+            @media (max-width: 560px) {
+                .archive-header {
+                    letter-spacing: 0.14em;
+                    font-size: 0.5rem;
+                }
+
+                .nav {
+                    gap: 12px;
+                    width: min(880px, 96vw);
+                    justify-content: space-between;
+                }
+
+                .nav-btn {
+                    padding: 6px 10px;
+                    letter-spacing: 0.1em;
+                }
+
+                .field-row {
+                    grid-template-columns: 1fr;
+                }
+
+                .title-body,
+                .section-body,
+                .error-body,
+                .loading-body {
+                    padding: 32px 24px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="archive-header" id="archive-header">
+            Archivo General de Migración — Expedientes Históricos
+        </div>
+        <div class="stage" id="stage">
+            <div class="card card-loading active">
+                <div class="card-texture"></div>
+                <div class="card-paper"></div>
+                <div class="card-binding"></div>
+                <div class="loading-body">
+                    <div class="loading-kicker">Cargando</div>
+                    <div class="loading-copy">
+                        Leyendo el archivo de contenido para componer la
+                        presentación.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav">
+            <button class="nav-btn" id="prev" disabled>&#8592; Anterior</button>
+            <div class="nav-counter" id="counter">0 / 0</div>
+            <button class="nav-btn" id="next" disabled>
+                Siguiente &#8594;
+            </button>
+        </div>
+
+        <script>
+            const archiveHeader = document.getElementById("archive-header");
+            const stage = document.getElementById("stage");
+            const prevBtn = document.getElementById("prev");
+            const nextBtn = document.getElementById("next");
+            const counter = document.getElementById("counter");
+
+            const defaultHeaderText =
+                "Archivo General de Migración — Expedientes Históricos";
+            const emptyValue = "—";
+            const portraitSVG = `<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#c8a878" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#90603a" stop-opacity="0.6"/>
+    </radialGradient>
+  </defs>
+  <rect width="100" height="130" fill="url(#bg)"/>
+  <path d="M5 130 Q8 95 25 88 L38 100 L50 92 L62 100 L75 88 Q92 95 95 130Z" fill="#2a1a0e" opacity="0.6"/>
+  <path d="M38 100 L50 92 L62 100 L58 108 L50 104 L42 108Z" fill="#e8dcc0" opacity="0.5"/>
+  <rect x="44" y="78" width="12" height="16" rx="4" fill="#3a2010" opacity="0.5"/>
+  <ellipse cx="50" cy="58" rx="20" ry="24" fill="#3a2010" opacity="0.55"/>
+  <path d="M30 52 Q32 30 50 30 Q68 30 70 52 Q65 40 50 38 Q35 40 30 52Z" fill="#1a0e06" opacity="0.6"/>
+</svg>`;
+
+            let slides = [];
+            let cards = [];
+            let leafletMaps = [];
+            let current = 0;
+            let busy = false;
+
+            const keyMap = {
+                expediente: "expediente",
+                nombre: "nombre",
+                nacimiento: "nacimiento",
+                registro: "registro",
+                padre: "padre",
+                madre: "madre",
+                residencia: "residencia",
+                profesion: "profesion",
+                foto: "foto",
+                origen: "origin",
+                destino: "dest",
+                observaciones: "obs",
+            };
+
+            function escapeHtml(value) {
+                return String(value).replace(
+                    /[&<>"']/g,
+                    (char) =>
+                        ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            '"': "&quot;",
+                            "'": "&#39;",
+                        })[char],
+                );
+            }
+
+            function escapeAttr(value) {
+                return escapeHtml(value);
+            }
+
+            function normalizeKey(value) {
+                return value
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, " ")
+                    .trim()
+                    .replace(/\s+/g, "");
+            }
+
+            function parseCoordinate(value) {
+                const match = String(value).match(
+                    /^(-?\d+\.?\d*),\s*(-?\d+\.?\d*),\s*(.+)$/,
+                );
+                if (!match) return null;
+                return {
+                    lat: Number(match[1]),
+                    lng: Number(match[2]),
+                    label: match[3].trim(),
+                };
+            }
+
+            function parseMarkdown(markdown) {
+                const parsedSlides = [];
+                let activeCard = null;
+                let currentSection = null;
+                let sectionCount = 0;
+
+                const flushCard = () => {
+                    if (!activeCard) return;
+                    activeCard.nombre =
+                        activeCard.nombre || activeCard.heading || emptyValue;
+                    parsedSlides.push(activeCard);
+                    activeCard = null;
+                };
+
+                for (const rawLine of markdown.split(/\r?\n/)) {
+                    const line = rawLine.trim();
+
+                    if (!line) {
+                        flushCard();
+                        continue;
+                    }
+
+                    if (line.startsWith("# ")) {
+                        flushCard();
+                        parsedSlides.push({
+                            type: "title",
+                            text: line.slice(2).trim(),
+                        });
+                        continue;
+                    }
+
+                    if (line.startsWith("## ")) {
+                        flushCard();
+                        sectionCount += 1;
+                        currentSection = {
+                            label: line.slice(3).trim(),
+                            number: sectionCount,
+                        };
+                        parsedSlides.push({
+                            type: "section",
+                            text: currentSection.label,
+                            sectionNumber: currentSection.number,
+                        });
+                        continue;
+                    }
+
+                    if (line.startsWith("### ")) {
+                        flushCard();
+                        activeCard = {
+                            type: "card",
+                            heading: line.slice(4).trim(),
+                            sectionLabel: currentSection
+                                ? currentSection.label
+                                : "",
+                            sectionIndex: currentSection
+                                ? parsedSlides.length - 1
+                                : -1,
+                            sectionNumber: currentSection
+                                ? currentSection.number
+                                : null,
+                        };
+                        continue;
+                    }
+
+                    if (line.startsWith("- ") && activeCard) {
+                        const field = line.slice(2);
+                        const divider = field.indexOf(":");
+                        if (divider === -1) continue;
+                        const rawKey = field.slice(0, divider).trim();
+                        const rawValue = field.slice(divider + 1).trim();
+                        const mappedKey = keyMap[normalizeKey(rawKey)];
+                        if (!mappedKey) continue;
+                        activeCard[mappedKey] =
+                            mappedKey === "origin" || mappedKey === "dest"
+                                ? parseCoordinate(rawValue)
+                                : rawValue;
+                    }
+                }
+
+                flushCard();
+                return parsedSlides;
+            }
+
+            function paperTexture(index) {
+                return `
+    <div class="card-texture">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <filter id="paper${index}">
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" seed="${index + 3}" stitchTiles="stitch" result="noise"/>
+          <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+          <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
+          <feComponentTransfer in="blend">
+            <feFuncR type="linear" slope="0.97" intercept="0.03"/>
+            <feFuncG type="linear" slope="0.96" intercept="0.02"/>
+            <feFuncB type="linear" slope="0.92" intercept="0.01"/>
+          </feComponentTransfer>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#paper${index})" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="card-paper"></div>
+    <div class="card-binding"></div>
+  `;
+            }
+
+            function valueOrDash(value) {
+                return value ? escapeHtml(value) : emptyValue;
+            }
+
+            function renderPhoto(slide) {
+                const name =
+                    slide.nombre || slide.heading || "Poblador no identificado";
+                const imageTag = slide.foto
+                    ? `<img class="photo-image" src="${escapeAttr(slide.foto)}" alt="Fotografía de ${escapeAttr(name)}">`
+                    : "";
+
+                return `
+    <div class="photo-wrap">
+      <div class="clip"><div class="clip-bridge"></div></div>
+      <div class="photo-frame${slide.foto ? " pending-photo" : ""}">
+        <div class="photo-empty">${portraitSVG}</div>
+        ${imageTag}
+      </div>
+      <div class="photo-label">Fotografía del solicitante</div>
+    </div>
+  `;
+            }
+
+            function renderMap(slide, index) {
+                const originLabel = slide.origin?.label
+                    ? escapeHtml(slide.origin.label)
+                    : emptyValue;
+                const destLabel = slide.dest?.label
+                    ? escapeHtml(slide.dest.label)
+                    : emptyValue;
+                const hasMap = slide.origin && slide.dest;
+
+                return `
+    <div class="map-box">
+      ${
+          hasMap
+              ? `<div class="map-div" id="map-${index}"></div>`
+              : `<div class="map-empty">Sin coordenadas disponibles</div>`
+      }
+    </div>
+    <div class="map-legend">
+      <span><span class="dot o"></span>${originLabel}</span>
+      <span><span class="dot d"></span>${destLabel}</span>
+    </div>
+  `;
+            }
+
+            function renderTitleSlide(slide, index, total) {
+                return `
+    <div class="card card-title${index === 0 ? " active" : ""}" data-type="title">
+      ${paperTexture(index)}
+      <div class="title-body">
+        <div class="title-kicker">Archivos del Sur</div>
+        <div class="title-main">${escapeHtml(slide.text)}</div>
+        <div class="title-sub">Trabajo colaborativo entre Archivos del Sur, Museo de la Patagonia, Consulado General de Chile en Bariloche y Círculo Chileno Gabriela Mistral.</div>
+      </div>
+      <div class="card-footer">
+        <div class="obs"></div>
+        <div class="page-mark">${String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;${String(total).padStart(2, "0")}</div>
+      </div>
+    </div>
+  `;
+            }
+
+            function renderSectionSlide(slide, index, total) {
+                return `
+    <div class="card card-section${index === 0 ? " active" : ""}" data-type="section">
+      ${paperTexture(index)}
+      <div class="section-body">
+        <div class="section-kicker">Sección ${String(slide.sectionNumber || 1).padStart(2, "0")}</div>
+        <div class="section-main">${escapeHtml(slide.text)}</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="card-footer">
+        <div class="obs"></div>
+        <div class="page-mark">${String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;${String(total).padStart(2, "0")}</div>
+      </div>
+    </div>
+  `;
+            }
+
+            function renderCardSlide(slide, index, total) {
+                return `
+    <div class="card${index === 0 ? " active" : ""}" data-type="card">
+      ${paperTexture(index)}
+      <div class="card-header">
+        <div class="hd-left">República Argentina<br>Dirección de Inmigración</div>
+        <div class="hd-center">Ficha de Registro Migratorio</div>
+        <div class="hd-right">Expediente N.º<br>${valueOrDash(slide.expediente)}</div>
+      </div>
+      <div class="card-body">
+        <div class="col-left">
+          <div class="field">
+            <label>Nombre Completo</label>
+            <div class="val">${valueOrDash(slide.nombre || slide.heading)}</div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Fecha de Nacimiento</label>
+              <div class="val">${valueOrDash(slide.nacimiento)}</div>
+            </div>
+            <div class="field">
+              <label>Fecha de Registro</label>
+              <div class="val">${valueOrDash(slide.registro)}</div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Padre</label>
+            <div class="val">${valueOrDash(slide.padre)}</div>
+          </div>
+          <div class="field">
+            <label>Madre</label>
+            <div class="val">${valueOrDash(slide.madre)}</div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Años de Residencia</label>
+              <div class="val">${valueOrDash(slide.residencia)}</div>
+            </div>
+            <div class="field">
+              <label>Profesión</label>
+              <div class="val">${valueOrDash(slide.profesion)}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-right">
+          ${renderPhoto(slide)}
+          ${renderMap(slide, index)}
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="obs">${valueOrDash(slide.obs)}</div>
+        <div class="page-mark">${String(index + 1).padStart(2, "0")}&thinsp;/&thinsp;${String(total).padStart(2, "0")}</div>
+      </div>
+    </div>
+  `;
+            }
+
+            function renderSlides(parsedSlides) {
+                const total = parsedSlides.length;
+                stage.innerHTML = parsedSlides
+                    .map((slide, index) => {
+                        if (slide.type === "title")
+                            return renderTitleSlide(slide, index, total);
+                        if (slide.type === "section")
+                            return renderSectionSlide(slide, index, total);
+                        return renderCardSlide(slide, index, total);
+                    })
+                    .join("");
+
+                cards = Array.from(stage.querySelectorAll(".card"));
+                leafletMaps = new Array(cards.length).fill(null);
+                bindPhotoFallbacks();
+            }
+
+            function bindPhotoFallbacks() {
+                stage.querySelectorAll(".photo-frame").forEach((frame) => {
+                    const img = frame.querySelector(".photo-image");
+                    if (!img) return;
+                    img.addEventListener(
+                        "load",
+                        () => {
+                            frame.classList.add("has-photo");
+                            frame.classList.remove("pending-photo");
+                        },
+                        { once: true },
+                    );
+                    img.addEventListener(
+                        "error",
+                        () => {
+                            frame.classList.remove(
+                                "has-photo",
+                                "pending-photo",
+                            );
+                            img.remove();
+                        },
+                        { once: true },
+                    );
+                });
+            }
+
+            function updateHeader() {
+                const slide = slides[current];
+                if (!slide) {
+                    archiveHeader.textContent = defaultHeaderText;
+                    return;
+                }
+
+                if (
+                    slide.type === "card" &&
+                    slide.sectionLabel &&
+                    slide.sectionIndex >= 0
+                ) {
+                    archiveHeader.innerHTML = `<button class="archive-crumb" type="button">${escapeHtml(slide.sectionLabel)}</button>`;
+                    archiveHeader
+                        .querySelector(".archive-crumb")
+                        .addEventListener("click", () =>
+                            goTo(slide.sectionIndex, -1),
+                        );
+                    return;
+                }
+
+                archiveHeader.textContent = defaultHeaderText;
+            }
+
+            function updateCounter() {
+                counter.textContent = slides.length
+                    ? `${current + 1} / ${slides.length}`
+                    : "0 / 0";
+                prevBtn.disabled = current === 0;
+                nextBtn.disabled = current >= slides.length - 1;
+            }
+
+            function initMap(index) {
+                if (leafletMaps[index]) {
+                    leafletMaps[index].invalidateSize();
+                    return;
+                }
+
+                const slide = slides[index];
+                if (
+                    !slide ||
+                    slide.type !== "card" ||
+                    !slide.origin ||
+                    !slide.dest
+                )
+                    return;
+
+                const el = document.getElementById(`map-${index}`);
+                if (!el || typeof L === "undefined") return;
+
+                const map = L.map(el, {
+                    zoomControl: false,
+                    attributionControl: false,
+                    dragging: false,
+                    scrollWheelZoom: false,
+                    doubleClickZoom: false,
+                });
+
+                L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        maxZoom: 10,
+                    },
+                ).addTo(map);
+
+                map.fitBounds(
+                    L.latLngBounds(
+                        [slide.origin.lat, slide.origin.lng],
+                        [slide.dest.lat, slide.dest.lng],
+                    ),
+                    { padding: [20, 20] },
+                );
+
+                const markerIcon = (color) =>
+                    L.divIcon({
+                        className: "",
+                        html: `<div style="width:9px;height:9px;border-radius:50%;background:${color};border:1.5px solid #1c110a;box-shadow:0 1px 4px rgba(0,0,0,.55)"></div>`,
+                        iconSize: [9, 9],
+                        iconAnchor: [4, 4],
+                    });
+
+                L.marker([slide.origin.lat, slide.origin.lng], {
+                    icon: markerIcon("#6e1a1a"),
+                }).addTo(map);
+                L.marker([slide.dest.lat, slide.dest.lng], {
+                    icon: markerIcon("#0e2038"),
+                }).addTo(map);
+
+                const mid = [
+                    (slide.origin.lat + slide.dest.lat) / 2 + 6,
+                    (slide.origin.lng + slide.dest.lng) / 2,
+                ];
+
+                L.polyline(
+                    [
+                        [slide.origin.lat, slide.origin.lng],
+                        mid,
+                        [slide.dest.lat, slide.dest.lng],
+                    ],
+                    {
+                        color: "#3a2008",
+                        weight: 1.4,
+                        opacity: 0.5,
+                        dashArray: "5,6",
+                    },
+                ).addTo(map);
+
+                setTimeout(() => map.invalidateSize(), 60);
+                leafletMaps[index] = map;
+            }
+
+            function goTo(next, dir) {
+                if (
+                    busy ||
+                    next === current ||
+                    next < 0 ||
+                    next >= cards.length
+                )
+                    return;
+
+                busy = true;
+                const previous = current;
+                current = next;
+
+                cards[current].classList.add(
+                    dir > 0 ? "entering-fwd" : "entering-bwd",
+                );
+                cards[previous].classList.remove("active");
+                cards[previous].classList.add(
+                    dir > 0 ? "leaving-fwd" : "leaving-bwd",
+                );
+
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => {
+                        cards[current].classList.remove(
+                            "entering-fwd",
+                            "entering-bwd",
+                        );
+                        cards[current].classList.add("active");
+                        setTimeout(() => initMap(current), 70);
+                    }),
+                );
+
+                setTimeout(() => {
+                    cards[previous].classList.remove(
+                        "leaving-fwd",
+                        "leaving-bwd",
+                    );
+                    busy = false;
+                }, 460);
+
+                updateHeader();
+                updateCounter();
+            }
+
+            function showError(message) {
+                stage.innerHTML = `
+    <div class="card card-error active">
+      ${paperTexture(0)}
+      <div class="error-body">
+        <div class="error-kicker">No se pudo cargar</div>
+        <div class="error-copy">${escapeHtml(message)}</div>
+      </div>
+    </div>
+  `;
+                archiveHeader.textContent = defaultHeaderText;
+                counter.textContent = "0 / 0";
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+            }
+
+            async function bootstrap() {
+                try {
+                    const response = await fetch("content.md", {
+                        cache: "no-store",
+                    });
+                    if (!response.ok) {
+                        throw new Error(
+                            "No fue posible leer content.md. Serví la carpeta por HTTP para usar esta presentación.",
+                        );
+                    }
+
+                    const markdown = await response.text();
+                    slides = parseMarkdown(markdown);
+
+                    if (!slides.length) {
+                        throw new Error(
+                            "content.md no contiene slides válidas.",
+                        );
+                    }
+
+                    renderSlides(slides);
+                    current = 0;
+                    busy = false;
+                    updateHeader();
+                    updateCounter();
+                    initMap(0);
+                } catch (error) {
+                    showError(
+                        error.message ||
+                            "Ocurrió un error inesperado al iniciar la presentación.",
+                    );
+                }
+            }
+
+            prevBtn.addEventListener("click", () => goTo(current - 1, -1));
+            nextBtn.addEventListener("click", () => goTo(current + 1, 1));
+
+            document.addEventListener("keydown", (event) => {
+                if (event.key === "ArrowRight") goTo(current + 1, 1);
+                if (event.key === "ArrowLeft") goTo(current - 1, -1);
+            });
+
+            bootstrap();
+        </script>
+    </body>
+</html>
