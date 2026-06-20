@@ -71,6 +71,10 @@
                 display: none;
             }
 
+            .mobile-notice {
+                display: none;
+            }
+
             .archive-crumb {
                 background: none;
                 border: none;
@@ -863,6 +867,54 @@
             }
 
             @media (max-width: 820px) {
+                .mobile-notice {
+                    display: flex;
+                    position: fixed;
+                    inset: 0;
+                    z-index: 9999;
+                    background: #15110d;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 32px 24px;
+                }
+
+                .mobile-notice-inner {
+                    background-color: var(--paper);
+                    padding: 40px 32px;
+                    max-width: 360px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                    gap: 18px;
+                    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+                }
+
+                .mobile-notice-kicker {
+                    font-family: "Special Elite", serif;
+                    font-size: 0.58rem;
+                    color: var(--red);
+                    text-transform: uppercase;
+                    letter-spacing: 0.26em;
+                }
+
+                .mobile-notice-title {
+                    font-family: "Pinyon Script", cursive;
+                    font-size: 2.8rem;
+                    color: var(--red);
+                    line-height: 1.1;
+                }
+
+                .mobile-notice-copy {
+                    font-family: "IM Fell English", serif;
+                    font-size: 0.95rem;
+                    color: var(--ink-faded);
+                    line-height: 1.5;
+                }
+            }
+
+            @media (max-width: 820px) {
                 body {
                     justify-content: flex-start;
                     padding: 10px 10px 14px;
@@ -1181,6 +1233,13 @@
         </style>
     </head>
     <body>
+        <div class="mobile-notice">
+            <div class="mobile-notice-inner">
+                <div class="mobile-notice-kicker">Archivos del Sur</div>
+                <div class="mobile-notice-title">Versión móvil<br>en construcción</div>
+                <div class="mobile-notice-copy">Esta presentación está optimizada para pantallas de escritorio. Visitá la página desde una computadora para ver la experiencia completa.</div>
+            </div>
+        </div>
         <div class="archive-header" id="archive-header">
             Archivo General de Migración — Expedientes Históricos
         </div>
