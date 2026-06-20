@@ -1,33 +1,33 @@
 # Habitantes
 
-## Zona del Perilago
+## Zona del Correntoso
 
 ### Abelino Olivero
-- N° Registro: ADS-1934-0012
-- Nombre: Abelino Olivero
-- Nacimiento: 3 feb. 1901
-- Registro: 18 jul. 1934
-- Padre: Francisco Olivero
-- Madre: Carmen Soto de Olivero
-- Residencia: 11
-- Profesión: Hachero
-- Origen: -42.767, -65.038, Puerto Madryn
-- Destino: -41.310, -71.530, San Carlos de Bariloche
-- Observaciones: Se asentó en la zona cordillerana como trabajador de obrajes y declaró residencia estable junto al lago.
+- N° Registro: 4459
+- Nombre: Abelino Olivero Nieto
+- Nacimiento: 15 de Agosto de 1903
+- Padre: José Bernabe Olivero
+- Madre: Domitila Nieto
+- Residencia: 24
+- Profesión: Agricultor
+- Origen: -40.41238, -73.01162, San Pablo, Osorno, Chile
+- Destino: -40.74101, -71.66159, Correntoso, Neuquén, Argentina
+- Observaciones: Soltero, estatura 1.74 mts.
+- Foto: public/abelino_olivero.png
 
-### Juan Cárcamo Miranda
-- N° Registro: ADS-1938-0047
-- Nombre: Juan Cárcamo Miranda
-- Nacimiento: 21 sep. 1898
-- Registro: 2 nov. 1938
-- Padre: Pedro Cárcamo
-- Madre: Leonor Miranda de Cárcamo
-- Residencia: 16
-- Profesión: Arriero
-- Foto: public/juan_carcamo_miranda.png
-- Origen: -41.471, -72.936, Puerto Montt, Chile
-- Destino: -41.133, -71.310, Dina Huapi
-- Observaciones: Cruzó por pasos andinos con documentación chilena y fue registrado por su actividad de transporte de ganado menor.
+### Antonio Santana y Barria
+- N° Registro: 4374
+- Nombre: Antonio Santana y Barria
+- Nacimiento: 1897
+- Registro: 4 Enero de 1932
+- Padre: Emilio
+- Madre: Emilia
+- Residencia: 23
+- Profesión: Jornalero
+- Foto: public/antonio_santana_y_barria.png
+- Origen: -42.88789527337144, -73.47263676602645, Queillen, Chile
+- Destino: -40.74101, -71.66159, Correntoso, Neuquén, Argentina
+- Observaciones: Casado, 34 años, estatura 1.68 mts
 
 ### Baudillo Coronado
 - N° Registro: ADS-1941-0093
