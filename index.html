@@ -282,7 +282,7 @@
                 flex: 1 1 0;
                 min-height: 0;
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
                 position: relative;
                 z-index: 10;
             }
@@ -293,7 +293,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                gap: 14px;
+                gap: 20px;
                 overflow: hidden;
             }
 
@@ -301,10 +301,32 @@
                 padding: 22px 22px 16px 20px;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: flex-start;
                 gap: 14px;
                 overflow: hidden;
-                align-items: center;
+                align-items: stretch;
+            }
+
+            .identity-panel {
+                display: grid;
+                grid-template-columns: 184px minmax(0, 1fr);
+                gap: 20px;
+                align-items: stretch;
+            }
+
+            .identity-main {
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 0;
+            }
+
+            .map-panel {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                min-height: 100%;
             }
 
             .field {
@@ -338,13 +360,27 @@
                 gap: 14px;
             }
 
+            .field-observations {
+                flex: 0 0 auto;
+                display: flex;
+                flex-direction: column;
+            }
+
             .field-observations .val {
                 font-size: 0.88rem;
                 line-height: 1.55;
                 letter-spacing: 0.02em;
-                min-height: 7.8rem;
+                min-height: 88px;
                 padding-top: 6px;
                 white-space: normal;
+                border-bottom: none;
+                background-image: repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 21px,
+                    rgba(140, 100, 40, 0.22) 21px,
+                    rgba(140, 100, 40, 0.22) 22px
+                );
             }
 
             .photo-wrap {
@@ -353,6 +389,7 @@
                 flex-shrink: 0;
                 transform: rotate(-1.2deg);
                 filter: drop-shadow(4px 8px 14px rgba(0, 0, 0, 0.3));
+                margin-top: 8px;
             }
 
             .clip {
@@ -489,8 +526,8 @@
 
             .map-box {
                 width: 100%;
-                height: 196px;
-                flex-shrink: 0;
+                min-height: 312px;
+                flex: 1 1 auto;
                 border: 1px solid var(--border);
                 position: relative;
                 overflow: hidden;
@@ -809,6 +846,20 @@
                     gap: 12px;
                 }
 
+                .identity-panel {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+
+                .identity-main {
+                    gap: 12px;
+                    justify-content: flex-start;
+                }
+
+                .identity-main {
+                    gap: 12px;
+                }
+
                 .field .val {
                     font-size: 1.08rem;
                     min-height: 1.8rem;
@@ -833,6 +884,7 @@
 
                 .map-box {
                     height: 220px;
+                    min-height: 220px;
                 }
 
                 .map-legend {
@@ -932,6 +984,11 @@
                     gap: 12px;
                 }
 
+                .identity-panel,
+                .detail-grid {
+                    gap: 10px;
+                }
+
                 .field label {
                     font-size: 0.5rem;
                     letter-spacing: 0.13em;
@@ -952,6 +1009,7 @@
 
                 .map-box {
                     height: 190px;
+                    min-height: 190px;
                 }
 
                 .title-body,
@@ -1292,36 +1350,43 @@
       </div>
       <div class="card-body">
         <div class="col-left">
-          <div class="field">
-            <label>Nombre Completo</label>
-            <div class="val">${valueOrDash(slide.nombre || slide.heading)}</div>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label>Fecha de Nacimiento</label>
-              <div class="val">${valueOrDash(slide.nacimiento)}</div>
-            </div>
-            <div class="field">
-              <label>Fecha de Registro</label>
-              <div class="val">${valueOrDash(slide.registro)}</div>
-            </div>
-          </div>
-          <div class="field">
-            <label>Padre</label>
-            <div class="val">${valueOrDash(slide.padre)}</div>
-          </div>
-          <div class="field">
-            <label>Madre</label>
-            <div class="val">${valueOrDash(slide.madre)}</div>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label>Años de Residencia</label>
-              <div class="val">${valueOrDash(slide.residencia)}</div>
-            </div>
-            <div class="field">
-              <label>Profesión</label>
-              <div class="val">${valueOrDash(slide.profesion)}</div>
+          <div class="identity-panel">
+            ${renderPhoto(slide)}
+            <div class="identity-main">
+              <div class="field">
+                <label>Nombre Completo</label>
+                <div class="val">${valueOrDash(slide.nombre || slide.heading)}</div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Fecha de Nacimiento</label>
+                  <div class="val">${valueOrDash(slide.nacimiento)}</div>
+                </div>
+                <div class="field">
+                  <label>Fecha de Registro</label>
+                  <div class="val">${valueOrDash(slide.registro)}</div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Padre</label>
+                  <div class="val">${valueOrDash(slide.padre)}</div>
+                </div>
+                <div class="field">
+                  <label>Madre</label>
+                  <div class="val">${valueOrDash(slide.madre)}</div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label>Años de Residencia</label>
+                  <div class="val">${valueOrDash(slide.residencia)}</div>
+                </div>
+                <div class="field">
+                  <label>Profesión</label>
+                  <div class="val">${valueOrDash(slide.profesion)}</div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="field field-observations">
@@ -1330,8 +1395,9 @@
           </div>
         </div>
         <div class="col-right">
-          ${renderPhoto(slide)}
-          ${renderMap(slide, index)}
+          <div class="map-panel">
+            ${renderMap(slide, index)}
+          </div>
         </div>
       </div>
       <div class="card-footer"></div>
@@ -1447,13 +1513,20 @@
                     },
                 ).addTo(map);
 
-                map.fitBounds(
-                    L.latLngBounds(
-                        [slide.origin.lat, slide.origin.lng],
-                        [slide.dest.lat, slide.dest.lng],
-                    ),
-                    { padding: [20, 20] },
-                );
+                const originPoint = [slide.origin.lat, slide.origin.lng];
+                const destPoint = [slide.dest.lat, slide.dest.lng];
+                const deltaLat = slide.dest.lat - slide.origin.lat;
+                const deltaLng = slide.dest.lng - slide.origin.lng;
+                const controlPoint = [
+                    (slide.origin.lat + slide.dest.lat) / 2 + deltaLng * 0.18,
+                    (slide.origin.lng + slide.dest.lng) / 2 - deltaLat * 0.18,
+                ];
+                const routePoints = [originPoint, controlPoint, destPoint];
+
+                map.fitBounds(routePoints, {
+                    padding: [32, 32],
+                    maxZoom: 7,
+                });
 
                 const markerIcon = (color) =>
                     L.divIcon({
@@ -1463,31 +1536,27 @@
                         iconAnchor: [4, 4],
                     });
 
-                L.marker([slide.origin.lat, slide.origin.lng], {
+                L.marker(originPoint, {
                     icon: markerIcon("#6e1a1a"),
                 }).addTo(map);
-                L.marker([slide.dest.lat, slide.dest.lng], {
+                L.marker(destPoint, {
                     icon: markerIcon("#0e2038"),
                 }).addTo(map);
 
-                const mid = [
-                    (slide.origin.lat + slide.dest.lat) / 2 + 6,
-                    (slide.origin.lng + slide.dest.lng) / 2,
-                ];
+                L.polyline(routePoints, {
+                    color: "#3a2008",
+                    weight: 4,
+                    opacity: 0.16,
+                    lineCap: "round",
+                }).addTo(map);
 
-                L.polyline(
-                    [
-                        [slide.origin.lat, slide.origin.lng],
-                        mid,
-                        [slide.dest.lat, slide.dest.lng],
-                    ],
-                    {
-                        color: "#3a2008",
-                        weight: 1.4,
-                        opacity: 0.5,
-                        dashArray: "5,6",
-                    },
-                ).addTo(map);
+                L.polyline(routePoints, {
+                    color: "#7a231a",
+                    weight: 2.4,
+                    opacity: 0.82,
+                    dashArray: "8,7",
+                    lineCap: "round",
+                }).addTo(map);
 
                 setTimeout(() => map.invalidateSize(), 60);
                 leafletMaps[index] = map;
