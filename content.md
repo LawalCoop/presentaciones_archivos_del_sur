@@ -11,7 +11,6 @@
 - Madre: Carmen Soto de Olivero
 - Residencia: 11
 - Profesión: Hachero
-- Foto: public/abelino_olivero.png
 - Origen: -42.767, -65.038, Puerto Madryn
 - Destino: -41.310, -71.530, San Carlos de Bariloche
 - Observaciones: Se asentó en la zona cordillerana como trabajador de obrajes y declaró residencia estable junto al lago.

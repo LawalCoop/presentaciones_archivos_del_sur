@@ -24,19 +24,22 @@
             }
 
             :root {
-                --ink: #1c110a;
-                --ink-blue: #0e1e32;
-                --ink-faded: #4a2e18;
-                --ocre: #7a5a20;
-                --border: #b09060;
-                --red: #6e1a1a;
-                --blue: #0e2038;
+                --ink: #1a1410;
+                --ink-blue: #1a1410;
+                --ink-faded: #6b5e52;
+                --ocre: #8b6f5c;
+                --border: #d9d0c5;
+                --red: #c0392b;
+                --blue: #4a7c9b;
+                --sage: #6b7f5e;
+                --paper: #faf6f0;
+                --paper-shadow: #f0ebe3;
             }
 
             html,
             body {
                 min-height: 100%;
-                background: #0d0905;
+                background: #15110d;
                 background-image:
                     repeating-linear-gradient(
                         92deg,
@@ -79,7 +82,7 @@
             }
 
             .archive-crumb:hover {
-                color: #b09060;
+                color: var(--ocre);
             }
 
             .stage {
@@ -103,7 +106,7 @@
                 transform-style: preserve-3d;
                 transition: none;
                 overflow: hidden;
-                background-color: #ede0c2;
+                background-color: var(--paper);
             }
 
             .card-texture {
@@ -141,13 +144,13 @@
                     ),
                     linear-gradient(
                         162deg,
-                        #f0e2c4 0%,
-                        #ecd8b8 18%,
-                        #f2e6cc 35%,
-                        #e8d4ae 55%,
-                        #eedcbc 72%,
-                        #e6d0a8 88%,
-                        #dfc8a0 100%
+                        var(--paper) 0%,
+                        #f6f1e8 18%,
+                        var(--paper) 35%,
+                        #f2ebe0 55%,
+                        var(--paper) 72%,
+                        var(--paper-shadow) 88%,
+                        #ece4d9 100%
                     );
             }
 
@@ -239,17 +242,26 @@
 
             .hd-left {
                 font-family: "Special Elite", serif;
-                font-size: 0.55rem;
+                font-size: 0.76rem;
                 color: var(--ink-faded);
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                line-height: 1.65;
+                letter-spacing: 0.08em;
+                line-height: 1.35;
+            }
+
+            .hd-accent {
+                font-family: "Pinyon Script", cursive;
+                font-size: 1.5rem;
+                color: var(--red);
+                letter-spacing: 0.01em;
+                text-transform: none;
+                vertical-align: middle;
+                margin-left: 4px;
             }
 
             .hd-center {
                 font-family: "Special Elite", serif;
-                font-size: 0.82rem;
-                color: var(--ink);
+                font-size: 1.04rem;
+                color: var(--red);
                 letter-spacing: 0.11em;
                 text-align: center;
                 text-transform: uppercase;
@@ -259,7 +271,7 @@
 
             .hd-right {
                 font-family: "Courier Prime", monospace;
-                font-size: 0.52rem;
+                font-size: 0.72rem;
                 color: var(--ocre);
                 text-align: right;
                 letter-spacing: 0.08em;
@@ -304,7 +316,7 @@
             .field label {
                 font-family: "Special Elite", serif;
                 font-size: 0.56rem;
-                color: var(--ocre);
+                color: var(--red);
                 text-transform: uppercase;
                 letter-spacing: 0.18em;
             }
@@ -468,7 +480,7 @@
             .photo-label {
                 font-family: "Special Elite", serif;
                 font-size: 0.5rem;
-                color: var(--ocre);
+                color: var(--red);
                 text-transform: uppercase;
                 letter-spacing: 0.16em;
                 text-align: center;
@@ -603,7 +615,7 @@
             .loading-kicker {
                 font-family: "Special Elite", serif;
                 font-size: 0.58rem;
-                color: var(--ocre);
+                color: var(--red);
                 text-transform: uppercase;
                 letter-spacing: 0.26em;
                 margin-bottom: 18px;
@@ -611,7 +623,7 @@
 
             .title-main {
                 font-family: "Pinyon Script", cursive;
-                color: var(--ink-blue);
+                color: var(--red);
                 font-size: clamp(3.4rem, 9vw, 6.2rem);
                 line-height: 0.92;
                 max-width: 11ch;
@@ -628,7 +640,7 @@
 
             .section-main {
                 font-family: "Special Elite", serif;
-                color: var(--ink);
+                color: var(--red);
                 font-size: clamp(1.4rem, 4vw, 2.8rem);
                 line-height: 1.2;
                 text-transform: uppercase;
@@ -673,9 +685,9 @@
             }
 
             .nav-btn {
-                background: rgba(222, 199, 150, 0.08);
-                border: 1px solid rgba(176, 144, 96, 0.65);
-                color: #c8aa72;
+                background: rgba(217, 208, 197, 0.08);
+                border: 1px solid rgba(139, 111, 92, 0.65);
+                color: #d9d0c5;
                 font-family: "Special Elite", serif;
                 font-size: 0.62rem;
                 letter-spacing: 0.2em;
@@ -689,9 +701,9 @@
             }
 
             .nav-btn:hover:not(:disabled) {
-                background: rgba(222, 199, 150, 0.14);
-                border-color: #dcc890;
-                color: #f0dfb2;
+                background: rgba(217, 208, 197, 0.16);
+                border-color: #d9d0c5;
+                color: #faf6f0;
             }
 
             .nav-btn:disabled {
@@ -702,7 +714,7 @@
             .nav-counter {
                 font-family: "Special Elite", serif;
                 font-size: 0.72rem;
-                color: #c8aa72;
+                color: #d9d0c5;
                 letter-spacing: 0.16em;
                 min-width: 82px;
                 text-align: center;
@@ -735,7 +747,6 @@
                 .col-right {
                     padding-top: 14px;
                 }
-
             }
 
             @media (max-width: 560px) {
@@ -824,6 +835,7 @@
             let leafletMaps = [];
             let current = 0;
             let busy = false;
+            let presentationTitle = "Habitantes";
 
             const keyMap = {
                 expediente: "expediente",
@@ -906,9 +918,11 @@
 
                     if (line.startsWith("# ")) {
                         flushCard();
+                        const titleText = line.slice(2).trim();
+                        presentationTitle = titleText || presentationTitle;
                         parsedSlides.push({
                             type: "title",
-                            text: line.slice(2).trim(),
+                            text: titleText,
                         });
                         continue;
                     }
@@ -1005,7 +1019,6 @@
         <div class="photo-empty">${portraitSVG}</div>
         ${imageTag}
       </div>
-      <div class="photo-label">Fotografía del solicitante</div>
     </div>
   `;
             }
@@ -1067,8 +1080,8 @@
     <div class="card${index === 0 ? " active" : ""}" data-type="card">
       ${paperTexture(index)}
       <div class="card-header">
-        <div class="hd-left">Archivos del Sur: Habitantes</div>
-        <div class="hd-center">${valueOrDash(slide.sectionLabel || 'Registro Migratorio')}</div>
+        <div class="hd-left">Archivos del Sur: <span class="hd-accent">${escapeHtml(presentationTitle)}</span></div>
+        <div class="hd-center">${valueOrDash(slide.sectionLabel || "Registro Migratorio")}</div>
         <div class="hd-right">N° Registro<br>${valueOrDash(slide.registroNumero || slide.expediente)}</div>
       </div>
       <div class="card-body">
