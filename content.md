@@ -204,7 +204,7 @@
 - Residencia: 40
 - Origen: -40.39914088094084, -73.01401662071495, Chile
 - Destino: -40.84629270813068, -71.43480742311917, Argentina
-- Observaciones: -
+- Observaciones: Vive desde el año 1883 aprox.
 - Documento: public/david_mella_ficha.jpg
 
 ### Juan de la Cruz Hernandez
@@ -216,5 +216,5 @@
 - Residencia: 34
 - Origen: -36.636249662409824, -72.04527275174195, Chillan, Chile
 - Destino: -40.99376986376239, -71.40391818875256, Los Tayos, Argentina
-- Observaciones: No sabe firmar
-- Documento: public/juan_de_la_cruz_hernandez_ficha.jpg.jpg
+- Observaciones: No sabe firmar. Vive desde el año 1879 aprox.
+- Documento: public/juan_de_la_cruz_hernandez_ficha.jpg
